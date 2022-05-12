@@ -3,12 +3,9 @@ package be.infernalwhale.springrestdemo.controller;
 import be.infernalwhale.springrestdemo.model.Employee;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/hello")
@@ -19,6 +16,7 @@ public class WorldController {
     // http://127.0.0.1:8080/hello
     // If the url points to a method, we call that url an "endpoint"
 
+//    @RequestMapping(value = "/hello")
 //    @RequestMapping(value = "/hello", method = RequestMethod.GET)
     @GetMapping("/world")
     public ResponseEntity helloWorld() {
@@ -36,8 +34,26 @@ public class WorldController {
 //        }
 
         Employee employee = new Employee(1, "Kevin", "Debruin");
+        Employee boss = new Employee(2, "The", "Boss");
+        employee.setBoss(boss);
 
         ResponseEntity response = new ResponseEntity(employee, HttpStatus.OK);
         return response;
+    }
+
+//    @RequestMapping(value = "/mars", method = RequestMethod.POST)
+    @PostMapping("/mars")
+    public ResponseEntity postExample() {
+        return ResponseEntity.ok("Hello From the PostMethod....");
+    }
+
+    @PutMapping("/mars")
+    public ResponseEntity putExample() {
+        return ResponseEntity.internalServerError().body("Hi from the put");
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity getAllEmployees() {
+        return ResponseEntity.ok(List.of(new Employee(1, "firstname", "familyname"), new Employee(2, "firstname", "familyname"), new Employee(3, "firstname", "familyname")));
     }
 }
